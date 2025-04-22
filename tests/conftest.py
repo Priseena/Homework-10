@@ -16,6 +16,7 @@ from faker import Faker
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+
 # === Application imports ===
 from app.main import app
 from app.database import Base, Database

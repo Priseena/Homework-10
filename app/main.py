@@ -10,7 +10,7 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
     Database.initialize(settings.database_url, settings.debug)
-    yield  # allow the app to run
+    yield
 
 app = FastAPI(
     title="User Management",
@@ -22,11 +22,12 @@ app = FastAPI(
         "email": "support@example.com",
     },
     license_info={"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
-    lifespan=lifespan  # ✅ correctly passed
+    lifespan=lifespan
 )
 
 @app.exception_handler(Exception)
 async def exception_handler(request, exc):
     return JSONResponse(status_code=500, content={"message": "An unexpected error occurred."})
 
-app.include_router(user_routes.router)  # ✅ router is included
+app.include_router(user_routes.router)
+app.include_router(user_routes.router, prefix="/api/users", tags=["users"])
